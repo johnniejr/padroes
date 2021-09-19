@@ -33,7 +33,8 @@ public class Game extends JFrame implements KeyListener
         setResizable(false);
         setVisible(true);
         
-        add(novo1, BorderLayout.CENTER);
+        add(novo2, BorderLayout.CENTER);
+           inicialize();
     }
     
     public void inicialize()
@@ -51,7 +52,7 @@ public class Game extends JFrame implements KeyListener
             switch (e.getKeyCode()) 
             {
                 case KeyEvent.VK_F2:
-                    inicialize();
+                 
                 break;
             }         
         }

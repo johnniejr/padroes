@@ -61,12 +61,12 @@ public class IniciandoFase extends JPanel implements KeyListener
             grafico.drawImage(player2, enemy.getX(), enemy.getY(), this);
             grafico.drawImage(player2, enemy2.getX(), enemy2.getY(), this);
             grafico.drawImage(player2, enemy3.getX(), enemy3.getY(), this);            
-            grafico.drawImage(tiro, shoot.getX(), shoot.getY(), this);            
+                
             
             enemy.mover();
             enemy2.mover();
             enemy3.mover();
-            shoot.mover();    
+            
             
             g.dispose();                        
         }

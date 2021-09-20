@@ -1,6 +1,7 @@
 package testejogo;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public class Enemy1 
@@ -11,8 +12,8 @@ public class Enemy1
     private Image imagem;    
     private boolean visible;
     
-    private static final int heigth = 49;
-    private static final int width = 58;
+    private static final int heigth = 20;
+    private static final int width = 20;
     
     public Enemy1()
     {
@@ -25,7 +26,7 @@ public class Enemy1
     
     public void mover()
     {
-        setX(x+2);
+        setX(x+5);
         if(getX()>597)
         {
             setX(1);
@@ -87,5 +88,17 @@ public class Enemy1
     {
         visible = Visible;
     }  
+    
+     public Rectangle getBounds()
+    {        
+        return new Rectangle(x, y, width, heigth);        
+    }
+     
+     public void destroy()
+     {
+         setVisible(false);
+         setX(0);
+         setY(0);
+     }
     
 }

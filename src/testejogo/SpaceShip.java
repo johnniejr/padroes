@@ -19,7 +19,7 @@ public class SpaceShip
         ImageIcon referencia = new ImageIcon("res/SpaceShip.jpg");
         imagem = referencia.getImage();        
         x=250;
-        y=500;
+        y=370;
         visible = true;
     }
     
@@ -38,6 +38,7 @@ public class SpaceShip
         }
         
     }
+   
     
     public void setDx(int dx)
     {

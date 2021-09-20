@@ -41,7 +41,7 @@ public class Game extends JFrame implements KeyListener
     {        
         
         add(novo2);
-        timer = new Timer(10, ae->novo2.repaint());
+        timer = new Timer(50, ae->novo2.repaint());
         timer.setRepeats(true);
         timer.start();
     }

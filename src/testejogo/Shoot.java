@@ -1,89 +1,72 @@
 package testejogo;
 
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 public class Shoot
 {
     private int x;
     private int y;
-    private int dx;    
-    private Image imagem;    
+    
+    
     private boolean visible;
     
-    private static final int heigth =   52;
-    private static final int width = 62;
+    private static final int heigth = 800;
+    private static final int speed = 15;
     
     public Shoot()
     {
-        ImageIcon referencia = new ImageIcon("res/bala.jpg");
-        imagem = referencia.getImage();        
-        x=250;
-        y=400;
-        visible = true;
+        this.x=x;
+        this.y=y;        
+        visible = false;
     }
     
-    public void mover()
+    
+    public void Mexer()
     {
-        
-        setY(y-2);        
-        
+        this.y -= speed;
+        if(this.y < 0)
+        {
+            this.visible = false;
+            this.y = 400;
+        }
     }
-    
-    public void setDx(int dx)
+
+    public boolean isVisible() 
     {
-        this.dx = dx;
-    }        
-    
-    public void setX(int x)
-    {
-        this.x = x;
+        return visible;
     }
-    
-    public void setY(int y)
+
+    public void setVisible(boolean isVisible) 
     {
-        this.y = y;
+        this.visible = isVisible;
     }
- 
+
     
-    public int getX()
+    public int getX() 
     {
         return x;
     }
     
-    public int getY()
+    public int getY() 
     {
         return y;
     }
-    
-     public int getDx()
+     public void setX(int value) 
     {
-        return dx;
-    }
-
-    
-    public Image getImagem()
-    {
-        return imagem;
+        this.x=value;
     }
     
-    public int getHeigth()
+    public void setY(int value) 
     {
-        return heigth;
-    }
-    public int getWidth()
-    {
-        return width;
+        this.y=value;
     }
     
-    public boolean visible()
-    {
-        return visible;
-    }
     
-    public void setVisible(boolean Visible)
+    public Rectangle getBounds()
     {
-        visible = Visible;
-    }  
+        return new Rectangle(x,y,2,2);
+    }
     
 }

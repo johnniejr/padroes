@@ -10,7 +10,9 @@ public class Game extends JFrame implements KeyListener
 {
     
     //private IniciandoFase novo2;
+    private Fase1 novo1;    
     private Fase2 novo2;    
+    private Fase3 novo3;    
     private Timer timer;
         
     public Game() 
@@ -19,7 +21,7 @@ public class Game extends JFrame implements KeyListener
         super("Megamania");
         
         //novo2 = new IniciandoFase();
-        novo2 = new Fase2();
+        novo3 = new Fase3();
         addKeyListener(this);
         component();        
        
@@ -34,15 +36,15 @@ public class Game extends JFrame implements KeyListener
         setResizable(false);
         setVisible(true);
         
-        add(novo2, BorderLayout.CENTER);
+        add(novo3, BorderLayout.CENTER);
            inicialize();
     }
     
     public void inicialize()
     {        
         
-        add(novo2);
-        timer = new Timer(50, ae->novo2.repaint());
+        add(novo3);
+        timer = new Timer(50, ae->novo3.repaint());
         timer.setRepeats(true);
         timer.start();
     }

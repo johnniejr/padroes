@@ -11,7 +11,7 @@ import java.awt.event.KeyListener;
 import java.util.Random;
 import javax.swing.JPanel;
 
-public class IniciandoFase extends JPanel implements KeyListener
+public class Fase1 extends JPanel implements KeyListener
 {         
         protected static final int heigth = 800;
         protected static final int width = 600;
@@ -35,7 +35,7 @@ public class IniciandoFase extends JPanel implements KeyListener
         Enemy1[] enemies = new Enemy1[10];
         Rectangle[] formaEnemies = new Rectangle[10];
         
-        public IniciandoFase()
+        public Fase1()
         {
             
             

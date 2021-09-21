@@ -4,46 +4,57 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
-public class SpaceShip 
+public class Enemy3 
 {
     private int x;
     private int y;
     private int dx;    
-    private Image imagem;    
+    private int dy; 
+    private final Image imagem;    
     private boolean visible;
     
-    private static final int heigth =   52;
-    private static final int width = 62;
+    private static final int heigth = 30;
+    private static final int width = 30;
     
-    public SpaceShip()
+    public Enemy3()
     {
-        ImageIcon referencia = new ImageIcon("res/SpaceShip.jpg");
+        ImageIcon referencia = new ImageIcon("res/Enemy2.jpg");
         imagem = referencia.getImage();        
-        x=250;
-        y=370;
+        x=1;
+        y=10;
         visible = true;
+        dy = 2;
     }
     
     public void mover()
     {
-        setX(x + dx);
-        
-        
-        if(this.x<1)
+        if(getY()<30)
         {
-            this.x=1;
+            this.setDy(5);
         }
-        if(this.x>530)
+                 
+        if(getX()>597)
         {
-            this.x=530;
+            setX(1);
         }
-        
+
+        if(getY()>300)
+        {
+            this.setDy(-3);            
+        }
+            
+        setX(x+15);
+        setY(y+dy);
     }
-   
     
     public void setDx(int dx)
     {
         this.dx = dx;
+    }        
+    
+     public void setDy(int dy)
+    {
+        this.dy = dy;
     }        
     
     public void setX(int x)
@@ -104,8 +115,9 @@ public class SpaceShip
      
      public void destroy()
      {
-         visible = false;
-         x=250;
-         y=370;         
+         setVisible(false);
+         setX(0);
+         setY(0);
      }
+    
 }

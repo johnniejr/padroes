@@ -8,7 +8,7 @@ public class Shoot
 {
     private int x;
     private int y;
-    
+    private int dy;
     
     private boolean visible;
     
@@ -18,18 +18,28 @@ public class Shoot
     public Shoot()
     {
         this.x=x;
-        this.y=y;        
+        this.y=y;
+        this.dy=1;
         visible = false;
     }
     
     
     public void Mexer()
     {
-        this.y -= speed;
+        if(dy>0)
+            y = y-speed;
+        if(dy<0)
+            y=y+speed;
+        
         if(this.y < 0)
         {
             this.visible = false;
             this.y = 400;
+        }
+        if(y>450)
+        {
+            this.visible = false;
+            this.y = 0;
         }
     }
 
@@ -63,6 +73,10 @@ public class Shoot
         this.y=value;
     }
     
+    public void setDirection(int value)
+    {
+        this.dy = value;
+    }
     
     public Rectangle getBounds()
     {

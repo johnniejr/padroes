@@ -17,9 +17,9 @@ public class Game extends JFrame implements KeyListener
     {
         super("Megamania");
                 
-        fase1 = new Fase1();
+        //fase1 = new Fase1();
         //fase2 = new Fase2();
-        //fase3 = new Fase3();
+        fase3 = new Fase3();
         addKeyListener(this);
         component();               
     }     
@@ -32,17 +32,17 @@ public class Game extends JFrame implements KeyListener
         setResizable(false);
         setVisible(true);
         
-        add(fase1, BorderLayout.CENTER);
+        //add(fase1, BorderLayout.CENTER);
         //add(fase2, BorderLayout.CENTER);
-        //add(fase3, BorderLayout.CENTER);
+        add(fase3, BorderLayout.CENTER);
            inicialize();
     }
     
     public void inicialize()
     {                        
-        timer = new Timer(50, ae->fase1.repaint());
+        //timer = new Timer(50, ae->fase1.repaint());
         //timer = new Timer(50, ae->fase2.repaint());
-        //timer = new Timer(50, ae->fase3.repaint());
+        timer = new Timer(50, ae->fase3.repaint());
         timer.setRepeats(true);
         timer.start();
     }

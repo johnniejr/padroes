@@ -184,7 +184,7 @@ public class Fase1 extends JPanel implements KeyListener
             }
         }
         
-        count=0; // Enquanto ainda não destruiu todos os inimigos
+        count = 0; // Enquanto ainda não destruiu todos os inimigos
 
         //Código para derrota ---------------------------------------------
         

@@ -8,258 +8,267 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
 import javax.swing.JPanel;
 
 public class Fase1 extends JPanel implements KeyListener
 {         
-        protected static final int heigth = 800;
-        protected static final int width = 600;
-        private SpaceShip nave;                                 
-        private Image player = null;
-        private Image player2 = null;
-        private Image life = null;
-        private Shoot tiro;
-        private Graphics2D g;        
-        
-        private Rectangle formaTiro;       
-        private boolean terminouFase;
-        
-        private int yellowBarX;
-        private int redBarX;
-        private int redBarWidth;
-        
-        private int taxa, taxa2, count;                
-        
-        private String value;
-        
-        Enemy1[] enemies = new Enemy1[10];
-        Rectangle[] formaEnemies = new Rectangle[10];
-        
-        public Fase1()
-        {                        
-            setFocusable(true);
-            addKeyListener(this);
-            nave = new SpaceShip();           
-            
-            
-            for( int i =0 ; i< 10; i++)
-            {
-                taxa = (int)(Math.random()*300);
-                taxa2 = (int)(Math.random()*600);
-                                
-                enemies[i] = new Enemy1();
-                enemies[i].setX(taxa2);
-                enemies[i].setY(taxa);                
-               
-            }
+    protected static final int heigth = 800;
+    protected static final int width = 600;
 
-            
-            tiro = new Shoot();
-            
+    private Image player = null;
+    private Image player2 = null;
+    private Image life = null;
+    private Graphics2D g;        
+    private Rectangle formaTiro;      
+
+    private SpaceShip nave;                                 
+    private Shoot tiro;        
+
+    private int level = 15;
+    private boolean terminouFase;
+
+    private int yellowBarX;
+    private int redBarX;
+    private int redBarWidth;        
+    private int taxa, taxa2, count, qtd;                
+
+    private String value;
+
+    Enemy1[] enemies = new Enemy1[level];
+    Rectangle[] formaEnemies = new Rectangle[level];
+
+    public Fase1()
+    {                        
+        setFocusable(true);
+        addKeyListener(this);
+        
+        nave = new SpaceShip();
+        tiro = new Shoot();
+
+        this.qtd = 1;
+
+        for( int i = 0 ; i < level; i++) //Array de inimigos
+        {
+            taxa = (int)(Math.random()*300);
+            taxa2 = (int)(Math.random()*600);
+
+            enemies[i] = new Enemy1();
+            enemies[i].setY(taxa);                
+            enemies[i].setX(taxa2);            
+        }
+        
+        this.setYellowBarX(505);
+        this.setRedBarX(555);
+        this.setRedBarWidth(0);
+        
+        player = nave.getImagem();
+        player2 = enemies[0].getImagem();            
+        life = nave.getImagemLife();
+    }
+
+    @Override
+    public void paintComponent(Graphics g)
+    {               
+        formaTiro = tiro.getBounds();           
+        
+        for(int i = 0; i < level ; i++)
+        {
+            formaEnemies[i] = new Rectangle();
+            formaEnemies[i]= enemies[i].getBounds();
+        }
+
+        //Barra de Energia / Valores --------------------------------------------
+        if(getYellowBarX()>0)
+            setYellowBarX(getYellowBarX()-1);
+        if(getRedBarX()>50)
+            setRedBarX(getRedBarX()-1);
+        if(getRedBarWidth()<505)
+            setRedBarWidth(getRedBarWidth()+1);
+
+        if(getRedBarX()==50) //Zerou Energia
+        {
             setYellowBarX(505);
             setRedBarX(555);
             setRedBarWidth(0);
-                                 
-            
+            nave.setContadorVidas(nave.getContadorVidas()-1);
+        }
+        //----------------------------------------------------
+
+        //Fundo-----------------------------------------------------------
+        g.clearRect(0, 0, this.getWidth(), this.getHeight());
+        g.setColor(Color.black);
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        //--------------------------------------------------------------
+
+        //Barra inferior----------------------------------------------------
+        g.setColor(Color.gray);            
+        g.fillRect(0, 450, 600, 150);
+
+        for(int i = 0; i < nave.getContadorVidas(); i++) //Vidas
+        {
+            g.drawImage(life,50+40*i,470,this);
+        }
+
+        g.setColor(Color.yellow); //Barra de energia
+        g.fillRect(50, 500, getYellowBarX(), 30);
+
+        g.setColor(Color.red); //Consumo da barra de energia
+        g.fillRect(getRedBarX(), 500, getRedBarWidth(), 30);
+
+        value = Integer.toString(nave.getPontuacao()); //Pontuação
+        g.setColor(Color.white);  
+        g.setFont(new Font("Times new Roman", Font.BOLD, 20));
+        g.drawString(value, 500, 470);
+        
+        //---------------------------------------------------------------
+
+        //JOGO-----------------------------------------------------------
+        
+        g.drawImage(player, nave.getX(), nave.getY(), this);
+
+        for(int i = 0; i < level ;i++)
+        {
+            if(enemies[i].visible())
+                g.drawImage(player2, enemies[i].getX(), enemies[i].getY(), this);
+        }
+
+        g.setColor(Color.red); //TIRO
+
+        if(tiro.visible())
+        {                    
+            g.drawLine(tiro.getX(), tiro.getY(), tiro.getX(), tiro.getY()+10);
+            tiro.Mexer();                    
+
+            for(int i = 0; i < level ; i++)
+            {
+                if(formaTiro.intersects(formaEnemies[i]))
+                {
+                    enemies[i].destroy();
+                    nave.setPontuacao(nave.getPontuacao()+20);
+                    tiro.visible(false); 
+                }
+            }
+        }
+        
+        if(!tiro.visible()) //Mantém o tiro saindo da nave
+        {
             tiro.setX(nave.getX()+26);
             tiro.setY(nave.getY());
-            player = nave.getImagem();
-            player2 = enemies[0].getImagem();            
-            life = nave.getImagemLife();
-            
+        }
+
+        for(int i = 0; i < level; i++)
+        {
+            enemies[i].mover();
         }
         
-        @Override
-        public void paintComponent(Graphics g)
-        {               
-            
-            formaTiro = tiro.getBounds();           
-            for(int i =0; i<10 ; i++)
-            {
-                formaEnemies[i] = new Rectangle();
-                formaEnemies[i]= enemies[i].getBounds();
-            }
-            
-            if(getYellowBarX()>0)
-                setYellowBarX(getYellowBarX()-1);
-            if(getRedBarX()>50)
-                setRedBarX(getRedBarX()-1);
-            if(getRedBarWidth()<505)
-                setRedBarWidth(getRedBarWidth()+1);
-            
-            if(getRedBarX()==50)
-            {
-                setYellowBarX(505);
-                setRedBarX(555);
-                setRedBarWidth(0);
-                nave.setContadorVidas(nave.getContadorVidas()-1);
-            }
-            
-            g.clearRect(0, 0, this.getWidth(), this.getHeight());
-            g.setColor(Color.black);
-            g.fillRect(0, 0, this.getWidth(), this.getHeight());
-            
-            g.setColor(Color.gray);            
-            g.fillRect(0, 450, 600, 150);
-            
-            for(int i = 0; i<nave.getContadorVidas(); i++)
-            {
-                g.drawImage(life,50+40*i,470,this);
-            }
-            
-            
-            g.setColor(Color.yellow);
-            g.fillRect(50, 500, getYellowBarX(), 30);
-            
-            g.setColor(Color.red);            
-            g.fillRect(getRedBarX(), 500, getRedBarWidth(), 30);
-            
-            value = Integer.toString(nave.getPontuacao());
-            g.setColor(Color.white);  
-            g.setFont(new Font("Times new Roman", Font.BOLD, 20));
-            g.drawString(value, 500, 470);
-            
-            
-            
-            
-            
-                          
-            g.drawImage(player, nave.getX(), nave.getY(), this);
-            
-            for(int j =0; j<10 ;j++)
-            {
-            if(enemies[j].visible())
-                g.drawImage(player2, enemies[j].getX(), enemies[j].getY(), this);
-            }
+        //PONTUAÇÃO E GANHO DE VIDAS E PARTIDA -------------------------------
+        
+        if(nave.getPontuacao() >= 1000*qtd)//Ganha vida em múltiplos de 1000
+        {
+            nave.setContadorVidas(nave.getContadorVidas()+1);
+            qtd = qtd+1;
+        }
 
-            g.setColor(Color.red);
-            
-                if(tiro.isVisible())
-                {                    
-                    g.drawLine(tiro.getX(), tiro.getY(), tiro.getX(), tiro.getY()+10);
-                    tiro.Mexer();                    
-                    
-                    for(int q = 0; q<10 ; q++)
-                    {
-                        if(formaTiro.intersects(formaEnemies[q]))
-                        {
-                            enemies[q].destroy();
-                            nave.setPontuacao(nave.getPontuacao()+20);
-                            tiro.setVisible(false); 
-                        }
-                    }
-                }
-                if(!tiro.isVisible())
+        for(int i = 0; i < level; i++)
+        {
+            if(!enemies[i].visible() && terminouFase==false)
+            {
+                count++;
+                
+                if(count==level)
                 {
-                    tiro.setX(nave.getX()+26);
-                    tiro.setY(nave.getY());
-                }
-            
-             for(int w =0; w<10; w++)
-             {
-                enemies[w].mover();
-             }
-            
-            if(nave.getPontuacao()>1000&&nave.getGanhouVida()==false)
-            {
-                nave.setContadorVidas(nave.getContadorVidas()+1);
-                nave.setGanhouVida(true);
-            
+                    nave.setPontuacao(nave.getPontuacao()+getYellowBarX()*2);
+                    terminouFase = true;
+                    //Código para mudar o estado para próxima fase.
+                }                   
             }
-            
-            for(int t=0; t<10;t++)
-            {
-                if(!enemies[t].visible()&&terminouFase==false)
-                {
-                    count++;
-                    if(count==10)
-                    {
-                        nave.setPontuacao(nave.getPontuacao()+getYellowBarX()*2);
-                        terminouFase=true;
-                    }                   
-                }
-                
-            }
-            
-            count=0;
-            
-            g.dispose();                        
         }
         
-        @Override
-        public int getWidth()
-        {
-            return width;
-        }
-        
-        public int getHeigth()
-        {
-            return heigth;
-        }
-        
-        public void keyTyped(KeyEvent e) 
-        { 
-        
-        }
+        count=0; // Enquanto ainda não destruiu todos os inimigos
 
-        public void keyPressed(KeyEvent e) 
+        //Código para derrota ---------------------------------------------
+        
+/*      if(nave.getContadorVidas()==0)
         {
-            switch (e.getKeyCode()) 
-            {
-                case KeyEvent.VK_RIGHT:
-                nave.setDx(10);
-                
-                nave.mover();
-                break;
-                
-                case KeyEvent.VK_LEFT:
-                nave.setDx(-10);
-                
-                nave.mover();
-                break;
-                
-                case KeyEvent.VK_SPACE:                                  
-                tiro.setVisible(true);                
-                   
-                    
-                                    
-                break;
-            }
-         
+            //Game Over
         }
+*/           
+      //-----------------------------------------------------------------------  
+        
+    g.dispose();                        
+    }
 
-        public void keyReleased(KeyEvent e) 
-        { 
-            
+    @Override
+    public int getWidth()
+    {
+        return width;
+    }
+
+    public int getHeigth()
+    {
+        return heigth;
+    }
+
+    public void keyTyped(KeyEvent e) 
+    { 
+
+    }
+
+    public void keyPressed(KeyEvent e) 
+    {
+        switch (e.getKeyCode()) 
+        {
+            case KeyEvent.VK_RIGHT:
+            nave.setDx(10);
+            nave.mover();
+            break;
+
+            case KeyEvent.VK_LEFT:
+            nave.setDx(-10);
+            nave.mover();
+            break;
+
+            case KeyEvent.VK_SPACE:                                  
+            tiro.visible(true);               
+            break;
         }
+    }
+
+    public void keyReleased(KeyEvent e) 
+    { 
+
+    }
+
+    public int getYellowBarX()
+    {
+        return yellowBarX;
+    }
+    
+    public int getRedBarX()
+    {
+        return redBarX;
+    }
+    
+    public int getRedBarWidth()
+    {
+        return redBarWidth;
+    }
+
+    public void setYellowBarX(int value)
+    {
+        this.yellowBarX = value;
+    }
+    
+    public void setRedBarX(int value)
+    {
+        this.redBarX = value;
+    }
+    
+    public void setRedBarWidth(int value)
+    {
+        this.redBarWidth = value;
+    }
         
-        public int getYellowBarX()
-        {
-            return yellowBarX;
-        }
-        public int getRedBarX()
-        {
-            return redBarX;
-        }
-        public int getRedBarWidth()
-        {
-            return redBarWidth;
-        }
-        
-        public void setYellowBarX(int value)
-        {
-            this.yellowBarX = value;
-        }
-        public void setRedBarX(int value)
-        {
-            this.redBarX = value;
-        }
-        public void setRedBarWidth(int value)
-        {
-            this.redBarWidth = value;
-        }
-        
-   }
+}
     
 

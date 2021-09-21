@@ -5,25 +5,23 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public class Enemy2 
-{
-    private int x;
-    private int y;
-    private int dx;    
-    private int dy; 
-    private final Image imagem;    
-    private boolean visible;
-    
+{           
     private static final int heigth = 30;
     private static final int width = 30;
     
+    private int x, y, dx, dy;    
+    private final Image enemy2;    
+    private boolean visible;
+    
     public Enemy2()
     {
-        ImageIcon referencia = new ImageIcon("res/Ovni.jpg");
-        imagem = referencia.getImage();        
-        x=1;
-        y=10;
-        visible = true;
-        dy = 2;
+        ImageIcon referencia = new ImageIcon("res/Enemy2.jpg");
+        enemy2 = referencia.getImage();        
+        this.x=1;
+        this.y=10;
+        this.dx = 7;
+        this.dy = 2;
+        this.visible = true;
     }
     
     public void mover()
@@ -35,7 +33,7 @@ public class Enemy2
                  
         if(getX()>597)
         {
-            setX(1);
+            this.setX(1);
         }
 
         if(getY()>300)
@@ -43,8 +41,8 @@ public class Enemy2
             this.setDy(-3);            
         }
             
-        setX(x+5);
-        setY(y+dy);
+        this.setX(x+dx);
+        this.setY(y+dy);
     }
     
     public void setDx(int dx)
@@ -52,14 +50,29 @@ public class Enemy2
         this.dx = dx;
     }        
     
-     public void setDy(int dy)
+    public int getDx()
+    {
+        return dx;
+    }
+    
+    public void setDy(int dy)
     {
         this.dy = dy;
-    }        
+    }
+    
+    public int getDy()
+    {
+        return dy;
+    }
     
     public void setX(int x)
     {
         this.x = x;
+    }    
+        
+    public int getX()
+    {
+        return x;
     }
     
     public void setY(int y)
@@ -67,57 +80,45 @@ public class Enemy2
         this.y = y;
     }
  
-    
-    public int getX()
-    {
-        return x;
-    }
-    
     public int getY()
     {
         return y;
-    }
-    
-     public int getDx()
+    }     
+           
+    public void setVisible(boolean visible)
     {
-        return dx;
-    }
-
-    
-    public Image getImagem()
-    {
-        return imagem;
-    }
-    
-    public int getHeigth()
-    {
-        return heigth;
-    }
-    public int getWidth()
-    {
-        return width;
-    }
+        this.visible = visible;
+    }  
     
     public boolean visible()
     {
         return visible;
     }
     
-    public void setVisible(boolean Visible)
+    public Image getImagem()
     {
-        visible = Visible;
-    }  
+        return enemy2;
+    }
     
-     public Rectangle getBounds()
+    public int getHeigth()
+    {
+        return heigth;
+    }
+    
+    public int getWidth()
+    {
+        return width;
+    }      
+    
+    public Rectangle getBounds()
     {        
         return new Rectangle(x, y, width, heigth);        
     }
      
-     public void destroy()
-     {
-         setVisible(false);
-         setX(0);
-         setY(0);
-     }
-    
+    public void destroy()
+    {
+        this.setVisible(false);
+        this.setX(0);
+        this.setY(0);
+    }    
 }

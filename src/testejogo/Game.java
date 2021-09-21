@@ -7,63 +7,57 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 public class Game extends JFrame implements KeyListener
-{
-    
-    //private IniciandoFase novo2;
-    private Fase1 novo1;    
-    private Fase2 novo2;    
-    private Fase3 novo3;    
+{        
+    private Fase1 fase1;    
+    private Fase2 fase2;    
+    private Fase3 fase3;    
     private Timer timer;
         
     public Game() 
     {
-        
         super("Megamania");
-        
-        //novo2 = new IniciandoFase();
-        novo3 = new Fase3();
+                
+        fase1 = new Fase1();
+        //fase2 = new Fase2();
+        //fase3 = new Fase3();
         addKeyListener(this);
-        component();        
-       
+        component();               
     }     
     
     public void component()
-    {      
-        
+    {              
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600,600);
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
         
-        add(novo3, BorderLayout.CENTER);
+        add(fase1, BorderLayout.CENTER);
+        //add(fase2, BorderLayout.CENTER);
+        //add(fase3, BorderLayout.CENTER);
            inicialize();
     }
     
     public void inicialize()
-    {        
-        
-        add(novo3);
-        timer = new Timer(50, ae->novo3.repaint());
+    {                        
+        timer = new Timer(50, ae->fase1.repaint());
+        //timer = new Timer(50, ae->fase2.repaint());
+        //timer = new Timer(50, ae->fase3.repaint());
         timer.setRepeats(true);
         timer.start();
     }
     
     @Override
-     public void keyPressed(KeyEvent e) 
-        {
-            switch (e.getKeyCode()) 
-            {
-                case KeyEvent.VK_F2:
-                 
-                break;
-            }         
-        }
+    public void keyPressed(KeyEvent e) 
+    {
+        
+    }
     @Override
-        public void keyReleased(KeyEvent e) 
-        { }
-    
-       
+    public void keyReleased(KeyEvent e) 
+    { 
+        
+    }
+           
     public static void main(String [] args)
     {
         new Game();

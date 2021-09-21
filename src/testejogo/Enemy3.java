@@ -6,24 +6,22 @@ import javax.swing.ImageIcon;
 
 public class Enemy3 
 {
-    private int x;
-    private int y;
-    private int dx;    
-    private int dy; 
-    private final Image imagem;    
-    private boolean visible;
-    
     private static final int heigth = 30;
     private static final int width = 30;
     
+    private int x, y, dx, dy;    
+    private final Image enemy3;    
+    private boolean visible;        
+    
     public Enemy3()
     {
-        ImageIcon referencia = new ImageIcon("res/Enemy2.jpg");
-        imagem = referencia.getImage();        
-        x=1;
-        y=10;
-        visible = true;
-        dy = 2;
+        ImageIcon referencia = new ImageIcon("res/Enemy3.jpg");
+        enemy3 = referencia.getImage();        
+        this.x=1;
+        this.y=10;        
+        this.dy = 2;
+        this.dx = 15; 
+        this.visible = true;
     }
     
     public void mover()
@@ -35,7 +33,7 @@ public class Enemy3
                  
         if(getX()>597)
         {
-            setX(1);
+            this.setX(1);
         }
 
         if(getY()>300)
@@ -43,81 +41,84 @@ public class Enemy3
             this.setDy(-3);            
         }
             
-        setX(x+15);
-        setY(y+dy);
+        this.setX(x+dx);
+        this.setY(y+dy);
     }
     
     public void setDx(int dx)
     {
         this.dx = dx;
-    }        
+    }
     
-     public void setDy(int dy)
+    public int getDx()
+    {
+        return dx;
+    }
+    
+    public void setDy(int dy)
     {
         this.dy = dy;
     }        
-    
+     
+    public int getDy()
+    {
+        return dy;
+    }
+        
     public void setX(int x)
     {
         this.x = x;
     }
-    
-    public void setY(int y)
-    {
-        this.y = y;
-    }
- 
     
     public int getX()
     {
         return x;
     }
     
+    public void setY(int y)
+    {
+        this.y = y;
+    }    
+     
     public int getY()
     {
         return y;
     }
-    
-     public int getDx()
+         
+    public void setVisible(boolean visible)
     {
-        return dx;
+        visible = visible;
+    }  
+  
+    public boolean visible()
+    {
+        return visible;
     }
-
     
     public Image getImagem()
     {
-        return imagem;
+        return enemy3;
     }
     
     public int getHeigth()
     {
         return heigth;
     }
+    
     public int getWidth()
     {
         return width;
-    }
+    }    
     
-    public boolean visible()
-    {
-        return visible;
-    }
-    
-    public void setVisible(boolean Visible)
-    {
-        visible = Visible;
-    }  
-    
-     public Rectangle getBounds()
+    public Rectangle getBounds()
     {        
         return new Rectangle(x, y, width, heigth);        
     }
      
-     public void destroy()
-     {
-         setVisible(false);
-         setX(0);
-         setY(0);
-     }
-    
+    public void destroy()
+    {
+        this.setVisible(false);
+        this.setX(0);
+        this.setY(0);
+    }
 }

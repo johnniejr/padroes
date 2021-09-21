@@ -29,26 +29,26 @@ public class Fase3 extends JPanel implements KeyListener
         private Rectangle formaNave;                
         private boolean terminouFase;
 
-        
+        private int level=50;
         private int yellowBarX;
         private int redBarX;
         private int redBarWidth;        
-        private int taxa, taxa2, inimigo, count;
+        private int taxa, taxa2, inimigo, count, qtd;
         
         
         private String value;
         
-        Enemy3[] enemies = new Enemy3[10];
-        Rectangle[] formaEnemies = new Rectangle[10];
+        Enemy3[] enemies = new Enemy3[level];
+        Rectangle[] formaEnemies = new Rectangle[level];
         
         public Fase3()
         {
-                        
+            qtd = 1;
             setFocusable(true);
             addKeyListener(this);
             nave = new SpaceShip();           
           
-            for( int i =0 ; i< 10; i++)
+            for( int i =0 ; i< level; i++)
             {
                 taxa = (int)(Math.random()*300);
                 taxa2 = (int)(Math.random()*600);
@@ -82,7 +82,7 @@ public class Fase3 extends JPanel implements KeyListener
             formaNave = nave.getBounds();
             formaTiro = tiro.getBounds();
             formaTiroInimigo = tiroInimigo.getBounds();
-            for(int i =0; i<10 ; i++)
+            for(int i =0; i<level ; i++)
             {
                 formaEnemies[i] = new Rectangle();
                 formaEnemies[i]= enemies[i].getBounds();
@@ -136,13 +136,13 @@ public class Fase3 extends JPanel implements KeyListener
             if(inimigo<0)
                 inimigo = inimigo*(-1);
             
-            tiroInimigo.setVisible(true);
+            tiroInimigo.visible(true);
             
             
                           
             g.drawImage(player, nave.getX(), nave.getY(), this);
             
-            for(int j =0; j<10 ;j++)
+            for(int j =0; j<level ;j++)
             {
             if(enemies[j].visible())
                 g.drawImage(player2, enemies[j].getX(), enemies[j].getY(), this);
@@ -150,35 +150,35 @@ public class Fase3 extends JPanel implements KeyListener
 
             g.setColor(Color.red);
             
-                if(tiro.isVisible())
+                if(tiro.visible())
                 {                    
                     g.drawLine(tiro.getX(), tiro.getY(), tiro.getX(), tiro.getY()+10);
                     tiro.Mexer();                    
                     
-                    for(int q = 0; q<10 ; q++)
+                    for(int q = 0; q<level ; q++)
                     {
                         if(formaTiro.intersects(formaEnemies[q]))
                         {
                             enemies[q].destroy();
                             nave.setPontuacao(nave.getPontuacao()+40);
-                            tiro.setVisible(false); 
+                            tiro.visible(false); 
                             
                         }
                     }
                 }
-                if(!tiro.isVisible())
+                if(!tiro.visible())
                 {
                     tiro.setX(nave.getX()+26);
                     tiro.setY(nave.getY());
                 }
             
-             for(int w =0; w<10; w++)
+             for(int w =0; w<level; w++)
              {
                 enemies[w].mover();
              }
             
             
-              if(tiroInimigo.isVisible())
+              if(tiroInimigo.visible())
                 {                    
                     g.setColor(Color.green);
                     g.drawLine(tiroInimigo.getX(), tiroInimigo.getY(), tiroInimigo.getX(), tiroInimigo.getY()+10);                    
@@ -188,31 +188,28 @@ public class Fase3 extends JPanel implements KeyListener
                         {
                             nave.destroy();
                             nave.setContadorVidas(nave.getContadorVidas()-1);
-                            tiroInimigo.setVisible(false); 
-                            if(getYellowBarX()>0)
-                                setYellowBarX(getYellowBarX()-10);
-                            if(getRedBarX()>50)
-                                setRedBarX(getRedBarX()-10);
-                            if(getRedBarWidth()<505)
-                                setRedBarWidth(getRedBarWidth()+10);
+                            tiroInimigo.visible(false); 
+                            setYellowBarX(505);
+                            setRedBarX(555);
+                            setRedBarWidth(0);
                         }
                     
                 }
-                if(!tiroInimigo.isVisible())
+                if(!tiroInimigo.visible())
                 {
                     tiroInimigo.setX(enemies[inimigo].getX()+15);
                     tiroInimigo.setY(enemies[inimigo].getY());
                 }
              
              
-             if(nave.getPontuacao()>1000&&nave.getGanhouVida()==false)
+             if(nave.getPontuacao()>=1000*qtd)
             {
                 nave.setContadorVidas(nave.getContadorVidas()+1);
-                nave.setGanhouVida(true);
+                qtd = qtd+1;
             
             }
              
-             for(int t=0; t<10;t++)
+             for(int t=0; t<level;t++)
             {
                 if(!enemies[t].visible()&&terminouFase==false)
                 {
@@ -221,12 +218,20 @@ public class Fase3 extends JPanel implements KeyListener
                     {
                         nave.setPontuacao(nave.getPontuacao()+getYellowBarX()*2);
                         terminouFase=true;
+                        //Código para mudar o estado para próxima fase.
                     }                   
                 }
                 
             }
             
             count=0;
+            
+/*            if(nave.getContadorVidas()==0)
+            {
+                //Game Over
+            }
+ */           
+            
             
             g.dispose();                        
         }
@@ -264,7 +269,7 @@ public class Fase3 extends JPanel implements KeyListener
                 break;
                 
                 case KeyEvent.VK_SPACE:                                  
-                tiro.setVisible(true);                
+                tiro.visible(true);                
                    
                     
                                     

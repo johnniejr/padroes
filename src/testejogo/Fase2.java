@@ -18,17 +18,18 @@ public class Fase2 extends JPanel implements KeyListener
         private SpaceShip nave;                                 
         private Image player = null;
         private Image player2 = null;
+        private Image life = null;
         private Shoot tiro;
         private Graphics2D g;        
         
-        private Rectangle formaTiro;
+        private Rectangle formaTiro;                
+        private boolean terminouFase;
 
         
         private int yellowBarX;
         private int redBarX;
-        private int redBarWidth;
-        private int pontuacao;
-        private int taxa, taxa2;
+        private int redBarWidth;        
+        private int taxa, taxa2, count;         
         
         private String value;
         
@@ -60,14 +61,13 @@ public class Fase2 extends JPanel implements KeyListener
             setYellowBarX(505);
             setRedBarX(555);
             setRedBarWidth(0);
-            
-            pontuacao = 0;
          
             
             tiro.setX(nave.getX()+26);
             tiro.setY(nave.getY());
             player = nave.getImagem();
             player2 = enemies[0].getImagem();            
+            life = nave.getImagemLife();
             
         }
         
@@ -91,7 +91,10 @@ public class Fase2 extends JPanel implements KeyListener
             
             if(getRedBarX()==50)
             {
-                
+                setYellowBarX(505);
+                setRedBarX(555);
+                setRedBarWidth(0);
+                nave.setContadorVidas(nave.getContadorVidas()-1);
             }
             
             g.clearRect(0, 0, this.getWidth(), this.getHeight());
@@ -101,6 +104,10 @@ public class Fase2 extends JPanel implements KeyListener
             g.setColor(Color.gray);            
             g.fillRect(0, 450, 600, 150);
             
+            for(int i = 0; i<nave.getContadorVidas(); i++)
+            {
+                g.drawImage(life,50+40*i,470,this);
+            }
             
             
             g.setColor(Color.yellow);
@@ -109,13 +116,10 @@ public class Fase2 extends JPanel implements KeyListener
             g.setColor(Color.red);            
             g.fillRect(getRedBarX(), 500, getRedBarWidth(), 30);
             
-            value = Integer.toString(pontuacao);
+            value = Integer.toString(nave.getPontuacao());
             g.setColor(Color.white);  
             g.setFont(new Font("Times new Roman", Font.BOLD, 20));
             g.drawString(value, 500, 470);
-            
-            
-            
             
             
                           
@@ -139,7 +143,7 @@ public class Fase2 extends JPanel implements KeyListener
                         if(formaTiro.intersects(formaEnemies[q]))
                         {
                             enemies[q].destroy();
-                            pontuacao = pontuacao +20;
+                            nave.setPontuacao(nave.getPontuacao()+30);
                             tiro.setVisible(false); 
                         }
                     }
@@ -154,6 +158,29 @@ public class Fase2 extends JPanel implements KeyListener
              {
                 enemies[w].mover();
              }
+            
+             if(nave.getPontuacao()>1000&&nave.getGanhouVida()==false)
+            {
+                nave.setContadorVidas(nave.getContadorVidas()+1);
+                nave.setGanhouVida(true);
+            
+            }
+             
+             for(int t=0; t<10;t++)
+            {
+                if(!enemies[t].visible()&&terminouFase==false)
+                {
+                    count++;
+                    if(count==10)
+                    {
+                        nave.setPontuacao(nave.getPontuacao()+getYellowBarX()*2);
+                        terminouFase=true;
+                    }                   
+                }
+                
+            }
+            
+            count=0;
             
             
             

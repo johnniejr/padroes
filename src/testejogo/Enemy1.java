@@ -12,8 +12,8 @@ public class Enemy1
     private Image imagem;    
     private boolean visible;
     
-    private static final int heigth = 20;
-    private static final int width = 20;
+    private static final int heigth = 30;
+    private static final int width = 30;
     
     public Enemy1()
     {

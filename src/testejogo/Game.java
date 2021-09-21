@@ -9,7 +9,8 @@ import javax.swing.Timer;
 public class Game extends JFrame implements KeyListener
 {
     
-    private IniciandoFase novo2;
+    //private IniciandoFase novo2;
+    private Fase2 novo2;
     private TelaInicial novo1;
     private Timer timer;
         
@@ -18,7 +19,8 @@ public class Game extends JFrame implements KeyListener
         
         super("Megamania");
         novo1 = new TelaInicial();
-        novo2 = new IniciandoFase();
+        //novo2 = new IniciandoFase();
+        novo2 = new Fase2();
         addKeyListener(this);
         component();        
        

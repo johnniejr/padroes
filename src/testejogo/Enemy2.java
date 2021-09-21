@@ -4,38 +4,57 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
-public class Enemy1 
+public class Enemy2 
 {
     private int x;
     private int y;
     private int dx;    
-    private Image imagem;    
+    private int dy; 
+    private final Image imagem;    
     private boolean visible;
     
-    private static final int heigth = 20;
-    private static final int width = 20;
+    private static final int heigth = 30;
+    private static final int width = 30;
     
-    public Enemy1()
+    public Enemy2()
     {
-        ImageIcon referencia = new ImageIcon("res/Enemy.jpg");
+        ImageIcon referencia = new ImageIcon("res/Ovni.jpg");
         imagem = referencia.getImage();        
         x=1;
         y=10;
         visible = true;
+        dy = 2;
     }
     
     public void mover()
     {
-        setX(x+3);
+        if(getY()<30)
+        {
+            this.setDy(3);
+        }
+                 
         if(getX()>597)
         {
             setX(1);
-        }     
+        }
+
+        if(getY()>300)
+        {
+            this.setDy(-3);            
+        }
+            
+        setX(x+5);
+        setY(y+dy);
     }
     
     public void setDx(int dx)
     {
         this.dx = dx;
+    }        
+    
+     public void setDy(int dy)
+    {
+        this.dy = dy;
     }        
     
     public void setX(int x)
